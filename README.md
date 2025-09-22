@@ -18,7 +18,6 @@ Una aplicación completa de gestión de biblioteca desarrollada con **Laravel 12
 -   **Autenticación**: Laravel Sanctum
 -   **Base de Datos**: PostgreSQL
 -   **Frontend Assets**: Vite + TailwindCSS
--   **Testing**: PHPUnit
 -   **Linting**: Laravel Pint
 
 ## 📋 Requisitos del Sistema
@@ -353,17 +352,32 @@ Content-Type: application/json
 
 -   No se puede eliminar si tiene libros asociados
 
-## 🧪 Testing
+## 🌱 Seeders y Datos de Prueba
 
-### Ejecutar Tests
+### Ejecutar Seeders
 
 ```bash
-# Todos los tests
-php artisan test
+# Ejecutar todos los seeders
+php artisan db:seed
 
-# Tests específicos
-php artisan test --filter LibroTest
+# Ejecutar un seeder específico
+php artisan db:seed --class=UsuariosTableSeeder
+php artisan db:seed --class=AutoresTableSeeder
+php artisan db:seed --class=LibrosTableSeeder
+php artisan db:seed --class=PrestamosTableSeeder
+
+# Recrear base de datos con seeders
+php artisan migrate:fresh --seed
 ```
+
+### Contenido de los Seeders
+
+Los seeders crean datos de prueba realistas para trabajar con la API:
+
+-   **UsuariosTableSeeder**: 10 usuarios ficticios con nombres, emails y datos completos
+-   **AutoresTableSeeder**: 15 autores famosos (García Márquez, Borges, Cervantes, etc.)
+-   **LibrosTableSeeder**: 20 libros clásicos y contemporáneos con ISBNs únicos
+-   **PrestamosTableSeeder**: Préstamos aleatorios con estados activos y devueltos
 
 ### Linting del Código
 
@@ -409,9 +423,18 @@ biblioteca-app/
 ├── routes/
 │   ├── api.php
 │   └── web.php
-└── tests/
-    ├── Feature/
-    └── Unit/
+└── database/
+    ├── seeders/
+    │   ├── AutoresTableSeeder.php
+    │   ├── LibrosTableSeeder.php
+    │   ├── UsuariosTableSeeder.php
+    │   └── PrestamosTableSeeder.php
+    └── migrations/
+        ├── 2025_09_22_140505_create_autores_table.php
+        ├── 2025_09_22_140506_create_libros_table.php
+        ├── 2025_09_22_140507_create_usuarios_table.php
+        ├── 2025_09_22_140508_create_autor_libro_table.php
+        └── 2025_09_22_140509_create_prestamos_table.php
 ```
 
 ## 🚀 Scripts de Desarrollo
@@ -421,9 +444,6 @@ biblioteca-app/
 ```bash
 # Desarrollo completo (servidor + cola + logs + vite)
 composer run dev
-
-# Tests
-composer run test
 ```
 
 ### Comandos Artisan Útiles
