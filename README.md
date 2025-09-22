@@ -91,39 +91,6 @@ npm run dev
 
 🎉 **¡Listo!** La aplicación estará disponible en `http://localhost:8000`
 
-## 🔧 Configuración Detallada
-
-### Variables de Entorno (.env)
-
-Las configuraciones principales que debes verificar en tu archivo `.env`:
-
-```bash
-# Configuración de la aplicación
-APP_NAME="Biblioteca API"
-APP_ENV=local
-APP_KEY=base64:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-APP_DEBUG=true
-APP_URL=http://localhost:8000
-
-# Base de datos SQLite
-DB_CONNECTION=sqlite
-DB_DATABASE=/ruta/absoluta/al/proyecto/database/database.sqlite
-
-# Configuración de Sanctum
-SANCTUM_STATEFUL_DOMAINS=localhost:3000,127.0.0.1:8000
-```
-
-### Estructura de Base de Datos
-
-El sistema incluye las siguientes tablas principales:
-
--   **usuarios**: Información de usuarios de la biblioteca
--   **autores**: Datos de autores de libros
--   **libros**: Catálogo de libros con stock
--   **autor_libro**: Relación many-to-many entre autores y libros
--   **prestamos**: Registro de préstamos con estados y fechas
--   **personal_access_tokens**: Tokens de Sanctum para autenticación
-
 ## 📊 Datos de Prueba (Seeders)
 
 Los seeders incluyen:
