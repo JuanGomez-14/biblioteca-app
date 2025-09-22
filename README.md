@@ -432,6 +432,9 @@ composer run test
 # Ver rutas API
 php artisan route:list --path=api
 
+# Generar reporte de biblioteca
+php artisan reporte:biblioteca
+
 # Limpiar caché
 php artisan config:clear
 php artisan cache:clear
@@ -443,6 +446,23 @@ php artisan migrate:fresh --seed
 php artisan tinker
 >>> User::find(1)->createToken('api')->plainTextToken
 ```
+
+### Comandos de Reportes
+
+```bash
+# Generar reporte completo de la biblioteca
+php artisan reporte:biblioteca
+```
+
+Este comando genera un reporte detallado que incluye:
+
+-   📊 Estadísticas generales de la biblioteca
+-   📚 Total de libros por categoría/autor
+-   👥 Información de usuarios y préstamos
+-   📈 Métricas de uso del sistema
+-   📋 Estado actual de préstamos activos y vencidos
+
+El reporte se guarda automáticamente y proporciona una visión completa del estado de la biblioteca.
 
 ## 🔒 Seguridad
 
