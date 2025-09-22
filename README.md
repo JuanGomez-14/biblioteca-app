@@ -122,6 +122,8 @@ Los seeders incluyen:
 
 **Importante**: Esta aplicación no incluye endpoints de registro/login. Para testing, debes crear tokens manualmente:
 
+#### Opción 1: Crear usuario nuevo
+
 ```bash
 # Acceder a Tinker (consola interactiva de Laravel)
 php artisan tinker
@@ -136,6 +138,25 @@ $user = \App\Models\User::factory()->create([
 $token = $user->createToken('api-token')->plainTextToken;
 echo $token;
 ```
+
+#### Opción 2: Usar usuario existente de los seeders
+
+```bash
+# Acceder a Tinker (consola interactiva de Laravel)
+php artisan tinker
+
+# Importar el modelo Usuario
+use App\Models\Usuario;
+
+# Obtener el primer usuario de los seeders
+$user = Usuario::find(1);
+
+# Generar token para el frontend
+$token = $user->createToken('api-token');
+echo $token->plainTextToken;
+```
+
+> **💡 Nota para desarrolladores Frontend**: Si el token expira durante el desarrollo, simplemente ejecuta los comandos de la "Opción 2" para generar un nuevo token y reemplaza la variable `API_TOKEN` en tu aplicación frontend.
 
 ### Usar el Token en Requests
 
