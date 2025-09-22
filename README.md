@@ -8,7 +8,7 @@ Una aplicación completa de gestión de biblioteca desarrollada con **Laravel 12
 -   **Gestión de Autores**: Eliminación con validación de integridad
 -   **Sistema de Préstamos**: Control de stock y límites por usuario
 -   **Autenticación API**: Laravel Sanctum para tokens seguros
--   **Base de Datos**: SQLite para desarrollo, fácil migración a otros SGBD
+-   **Base de Datos**: PostgreSQL para producción y desarrollo
 -   **Validaciones Robustas**: Request classes personalizadas
 -   **Datos de Prueba**: Seeders con información realista
 
@@ -16,7 +16,7 @@ Una aplicación completa de gestión de biblioteca desarrollada con **Laravel 12
 
 -   **Backend**: Laravel 12 (PHP 8.2+)
 -   **Autenticación**: Laravel Sanctum
--   **Base de Datos**: SQLite (desarrollo)
+-   **Base de Datos**: PostgreSQL
 -   **Frontend Assets**: Vite + TailwindCSS
 -   **Testing**: PHPUnit
 -   **Linting**: Laravel Pint
@@ -27,6 +27,7 @@ Una aplicación completa de gestión de biblioteca desarrollada con **Laravel 12
 -   **Composer** >= 2.0
 -   **Node.js** >= 18.0
 -   **npm** o **yarn**
+-   **PostgreSQL** >= 12.0
 -   **Git**
 
 ## ⚡ Instalación Rápida
@@ -63,8 +64,17 @@ php artisan key:generate
 ### 5. Configurar Base de Datos
 
 ```bash
-# Crear archivo SQLite (si no existe)
-touch database/database.sqlite
+# Configurar variables de entorno para PostgreSQL en .env
+# Edita el archivo .env con la configuración de tu base de datos:
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=biblioteca_db
+DB_USERNAME=tu_usuario
+DB_PASSWORD=tu_contraseña
+
+# Crear la base de datos (ejecutar en psql o pgAdmin)
+# CREATE DATABASE biblioteca_db;
 
 # Ejecutar migraciones
 php artisan migrate
@@ -90,6 +100,72 @@ npm run dev
 ```
 
 🎉 **¡Listo!** La aplicación estará disponible en `http://localhost:8000`
+
+## 🔧 Configuración de PostgreSQL
+
+### Configuración del archivo .env
+
+Asegúrate de que tu archivo `.env` tenga la configuración correcta para PostgreSQL:
+
+```bash
+# Configuración de la aplicación
+APP_NAME="Biblioteca API"
+APP_ENV=local
+APP_KEY=base64:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
+# Base de datos PostgreSQL
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=biblioteca_db
+DB_USERNAME=tu_usuario_postgres
+DB_PASSWORD=tu_contraseña_postgres
+
+# Configuración de Sanctum
+SANCTUM_STATEFUL_DOMAINS=localhost:3000,127.0.0.1:8000
+```
+
+### Instalación de PostgreSQL
+
+#### En Ubuntu/Debian:
+
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+```
+
+#### En macOS:
+
+```bash
+# Con Homebrew
+brew install postgresql
+brew services start postgresql
+
+# Crear usuario y base de datos
+createuser --interactive --pwprompt
+createdb biblioteca_db
+```
+
+#### En Windows:
+
+1. Descargar PostgreSQL desde [postgresql.org](https://www.postgresql.org/download/windows/)
+2. Ejecutar el instalador y seguir las instrucciones
+3. Usar pgAdmin para crear la base de datos
+
+### Estructura de Base de Datos
+
+El sistema incluye las siguientes tablas principales:
+
+-   **usuarios**: Información de usuarios de la biblioteca
+-   **autores**: Datos de autores de libros
+-   **libros**: Catálogo de libros con stock
+-   **autor_libro**: Relación many-to-many entre autores y libros
+-   **prestamos**: Registro de préstamos con estados y fechas
+-   **personal_access_tokens**: Tokens de Sanctum para autenticación
 
 ## 📊 Datos de Prueba (Seeders)
 
@@ -387,11 +463,28 @@ php artisan tinker
 
 ### Problemas Comunes
 
-#### Error de permisos en SQLite
+#### Error de conexión a PostgreSQL
 
 ```bash
-sudo chmod 664 database/database.sqlite
-sudo chmod 775 database/
+# Verificar que PostgreSQL esté ejecutándose
+sudo systemctl status postgresql
+
+# En macOS con Homebrew
+brew services start postgresql
+
+# Verificar conexión desde la terminal
+psql -h 127.0.0.1 -p 5432 -U tu_usuario -d biblioteca_db
+```
+
+#### Base de datos no existe
+
+```bash
+# Crear la base de datos manualmente
+createdb biblioteca_db
+
+# O desde psql
+psql -U postgres
+CREATE DATABASE biblioteca_db;
 ```
 
 #### Token no válido
