@@ -1,0 +1,44 @@
+# Laravel general
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+/storage/app/public
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+/bootstrap/cache/*.php
+
+# Archivos de entorno
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+*.log.*
+
+# Cache y debug
+.phpunit.result.cache
+.phpunit.cache
+.php-cs-fixer.cache
+/.phpstorm.meta.php
+
+# Compilados de frontend
+/public/hot
+/public/build
+/public/js/*
+/public/css/*
+/public/mix-manifest.json
+/public/vite.svg
+
+# Sistemas operativos
+.DS_Store
+Thumbs.db
+
+# IDEs y editores
+.vscode
+.idea
+*.sublime-project
+*.sublime-workspace
